@@ -140,6 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Detrak.cpp" />
+    <ClCompile Include="Painter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Detrak.h" />
+    <ClInclude Include="Painter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
