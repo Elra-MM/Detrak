@@ -2,19 +2,34 @@
 //
 
 #include <iostream>
+using namespace std;
+#include "Painter.h"
+#include "Detrak.h"
 
+const char symbols[6]{ 'A', 'B', 'C', 'D', 'E', 'F' };
 int main()
 {
-    std::cout << "Hello World!\n";
+    int const columns_count = 6;
+    int const raws_count = 6;
+    
+    char matrix[raws_count][columns_count];
+    matrix[0][0] = FirstAnswer();
+    cout << "Matrix[0][0] = " << matrix[0][0] << endl;
+
+    Painter painter = Painter();
+    painter.DrawGrid();
+
+
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+char FirstAnswer() {
+    cout << "Choose your first symbol within { 'A', 'B', 'C', 'D', 'E', 'F' }" << endl;
+    char firstAnswer;
+    std::cin >> firstAnswer;
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+    if (std::find(begin(symbols), end(symbols), firstAnswer) != std::end(symbols))
+        return firstAnswer;
+    else
+        return FirstAnswer();
+}
+
