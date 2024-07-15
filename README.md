@@ -6,7 +6,9 @@ The goal is to learn again how to code in C++ with a little game named Detrak.
 
 2nd step: find a way to get an Android app with it. 
 
-How it is played: 2 dice are rolled and each player has to draw these symbols into their sheet following very simple rules: 
+How it is played: 
+At first, the player choses a symbol and draw it in the first field.
+Then, each round, 2 dice are rolled and each player has to draw these symbols into their sheet following very simple rules: 
 - the two symbols have to be drawn in orthogonally adjacent fields. (Single fields previously surrounded with symbols will never be filled.) 
 - as long as there are adjacent spaces, the symbols must be entered.
 - The game ends when the sheets are filled or there are no legal adjacent spaces left.
