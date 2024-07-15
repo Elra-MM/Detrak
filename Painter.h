@@ -1,13 +1,9 @@
 #pragma once
-class Painter
+class Painter final
 {
 private:
-	int const columns_count = 6;
-	int const raws_count = 6;
 	
 public:
-	void const DrawGrid();
-	enum symbols {A, B, C, D, E, F};
-
+	void const DrawGrid(const char(&matrix)[6][6], const int raws_count, const int columns_count);
 };
 
