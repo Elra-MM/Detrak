@@ -1,47 +1,59 @@
-// Detrak.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 using namespace std;
 #include "Painter.h"
 #include "Detrak.h"
 
-//I don't know where and how to put it and make it work
-const char symbols[6]{ 'A', 'B', 'C', 'D', 'E', 'F' }; 
-int main()
-{
-    int const columns_count = 6;
-    int const raws_count = 6;
-    
-    char matrix[raws_count][columns_count];
-    InitMatrix(matrix, raws_count, columns_count);
-    
-    matrix[0][0] = FirstAnswer();
-    
-    Painter painter = Painter();
-    painter.DrawGrid(matrix, raws_count, columns_count);
+namespace { //it is available only in this file
+    struct CastSymbol
+    {
+        char character;
+        Symbols symbol;
+    };
 
+    constexpr CastSymbol matchings[] = {
+        {'A', Symbols::A},
+        {'B', Symbols::B},
+        {'C', Symbols::C},
+        {'D', Symbols::D},
+        {'E', Symbols::E},
+        {'F', Symbols::F},
+        {'_', Symbols::_},
 
+    };
 }
 
-void InitMatrix(char(&matrix)[6][6], const int raws_count, const int columns_count) {
-    for (int i = 0; i < raws_count; i++)
-    {
-        for (int j = 0; j < columns_count; j++)
+char symbolsToChar(const Symbols& symb) {
+    for (auto [c, s] : matchings) {
+        if (symb == s)
+            return c;
+    }
+    cout << "Can't find your symbol";
+}
+
+
+Symbols firstAnswer() {
+    cout << "Choose your first symbol within { 'A', 'B', 'C', 'D', 'E', 'F' }" << endl;
+
+    while (true) {
+        char answer;
+        cin >> answer;
+
+        for (auto [c, s] : matchings)
         {
-            matrix[i][j] = '_';
+            if (answer == c)
+                return s;
         }
+        cout << "Choose better stp" << endl;
     }
 }
 
-char FirstAnswer() {
-    cout << "Choose your first symbol within { 'A', 'B', 'C', 'D', 'E', 'F' }" << endl;
-    char firstAnswer;
-    std::cin >> firstAnswer;
-
-    if (std::find(begin(symbols), end(symbols), firstAnswer) != std::end(symbols))
-        return firstAnswer;
-    else
-        return FirstAnswer();
+Board::Board()
+{
+    for (auto& row : Board::matrix)
+    {
+        for (auto& symb : row)
+        {
+            symb = Symbols::_;
+        }
+    }
 }
-
