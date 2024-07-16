@@ -4,6 +4,7 @@ enum class Symbols { A, B, C, D, E, F, _ };
 [[nodiscard]] char symbolsToChar(const Symbols&);
 
 Symbols firstAnswer();
+Symbols getRandomSymbol();
 
 
 constexpr size_t Board_size = 5;

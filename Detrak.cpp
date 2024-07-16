@@ -47,6 +47,12 @@ Symbols firstAnswer() {
     }
 }
 
+Symbols getRandomSymbol() {
+    int random = rand();
+    cout << "random = " << random << endl;
+    return matchings[random].symbol;
+}
+
 Board::Board()
 {
     for (auto& row : Board::matrix)

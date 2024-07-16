@@ -7,6 +7,6 @@ private:
 	
 public:
 	Painter() = default;
-	void DrawGrid(const Board& Board) const;
+	void drawGrid(const Board&) const;
 };
 

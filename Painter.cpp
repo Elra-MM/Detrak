@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-void Painter::DrawGrid(const Board& Board) const
+void Painter::drawGrid(const Board& Board) const
 {
 	for (auto& row : Board.matrix)
 	{
