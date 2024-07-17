@@ -2,6 +2,7 @@
 using namespace std;
 #include "Painter.h"
 #include "Detrak.h"
+#include <random>
 
 namespace { //it is available only in this file
     struct CastSymbol
@@ -48,7 +49,12 @@ Symbols firstAnswer() {
 }
 
 Symbols getRandomSymbol() {
-    int random = rand();
+
+    std::random_device seed;  // a seed source for the random number engine
+    std::mt19937 gen(seed()); // mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> distrib(1, 6);
+
+    int random = distrib(gen);
     cout << "random = " << random << endl;
     return matchings[random].symbol;
 }
