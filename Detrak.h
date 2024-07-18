@@ -1,11 +1,21 @@
 #pragma once
+#include <vector>
+#include <ostream>
+
 
 enum class Symbols { A, B, C, D, E, F, _ };
 [[nodiscard]] char symbolsToChar(const Symbols&);
 
-Symbols firstAnswer();
+Symbols firstSymbol();
 Symbols getRandomSymbol();
 
+struct Coordinate
+{
+	int x;
+	int y;
+};
+
+std::ostream& operator<<(std::ostream& out, const Coordinate& coord);
 
 constexpr size_t Board_size = 5;
 
@@ -24,4 +34,12 @@ public:
 	~Board() = default;
 
 	Matrix<Symbols, Board_size> matrix;
+
+	bool isAvailable(Coordinate const);
+	bool hasAdjacentFields(Coordinate const);
+	std::vector<Coordinate> getNeighborsAvailable(Coordinate const);
+	Coordinate chooseFirstCoordinate();
+	Coordinate chooseSecondCoordinate(Coordinate const);
+	void drawSymbols(Symbols const symb1, Symbols const symb2);
 };
+
