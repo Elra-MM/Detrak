@@ -159,3 +159,18 @@ void Board::drawSymbols(Symbols& const symb1, Symbols& const symb2)
     matrix[coord1.x][coord1.y] = symb1;
     matrix[coord2.x][coord2.y] = symb2;
 }
+
+bool Board::canTheGameContinue()
+{
+    for (unsigned short int i = 0; i < board_size; i++) 
+    {
+        for (unsigned short int j = 0; j < board_size; j++)
+        {
+            if (Board::matrix[i][j] == Symbols::_ && hasAdjacentFields({ i, j }))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}

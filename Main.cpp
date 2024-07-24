@@ -12,7 +12,9 @@ int main()
     Painter painter;
     painter.drawGrid(board);
 
-    //Do{
+    do
+    {
+
     Symbols symb1 = getRandomSymbol();
     Symbols symb2 = getRandomSymbol();
     std::cout << "You get " << symbolsToChar(symb1) << " and " << symbolsToChar(symb2) << std::endl;
@@ -20,7 +22,8 @@ int main()
     board.drawSymbols(symb1, symb2);
     painter.drawGrid(board);
     
-    //}While(StopCondition)
+    }
+    while(board.canTheGameContinue());
     //Score
     return 0;
 }

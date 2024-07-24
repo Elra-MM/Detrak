@@ -42,5 +42,6 @@ public:
 	[[nodiscard]] Coordinate chooseFirstCoordinate();
 	[[nodiscard]] Coordinate chooseSecondCoordinate(Coordinate& const);
 	void drawSymbols(Symbols& const symb1, Symbols& const symb2);
+	[[nodiscard]] bool canTheGameContinue();
 };
 
