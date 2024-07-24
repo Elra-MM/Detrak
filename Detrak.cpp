@@ -1,8 +1,8 @@
 #include <iostream>
-using namespace std;
+#include <random>
+
 #include "Painter.h"
 #include "Detrak.h"
-#include <random>
 
 namespace { //it is available only in this file
     struct CastSymbol
@@ -19,43 +19,45 @@ namespace { //it is available only in this file
         {'E', Symbols::E},
         {'F', Symbols::F},
         {'_', Symbols::_},
+        {'X', Symbols::X}
 
     };
 }
 
-char symbolsToChar(const Symbols& symb) {
+[[nodiscard]] char symbolsToChar(const Symbols& symb) {
     for (auto [c, s] : matchings) {
         if (symb == s)
             return c;
     }
-    cout << "Can't find your symbol";
+    std::cerr << "Can't find the symbol, return X";
+    return 'X';
 }
 
 
-Symbols firstSymbol() {
-    cout << "Choose your first symbol within { 'A', 'B', 'C', 'D', 'E', 'F' }" << endl;
+[[nodiscard]] Symbols firstSymbol() {
+    std::cout << "Choose your first symbol within { 'A', 'B', 'C', 'D', 'E', 'F' }" << std::endl;
 
     while (true) {
         char answer;
-        cin >> answer;
+        std::cin >> answer;
 
         for (auto [c, s] : matchings)
         {
             if (answer == c)
                 return s;
         }
-        cout << "Choose better stp" << endl;
+        std::cout << "Choose better stp" << std::endl;
     }
 }
 
-Symbols getRandomSymbol() {
+[[nodiscard]] Symbols getRandomSymbol() {
 
     std::random_device seed;  // a seed source for the random number engine
     std::mt19937 gen(seed()); // mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(1, 6);
 
     int random = distrib(gen);
-    cout << "random = " << random << endl;
+    std::cout << "random = " << random << std::endl;
     return matchings[random].symbol;
 }
 
@@ -75,11 +77,11 @@ Board::Board()
 }
 
 
-bool Board::isAvailable(Coordinate const coord) {
-    return this->matrix[coord.x][coord.y] == Symbols::_;
+[[nodiscard]] bool Board::isAvailable(Coordinate const coord) {
+    return matrix[coord.x][coord.y] == Symbols::_;
 }
 
-bool Board::hasAdjacentFields(Coordinate const coord) {
+[[nodiscard]] bool Board::hasAdjacentFields(Coordinate const coord) {
     return matrix[coord.x + 1][coord.y] == Symbols::_ &&
         matrix[coord.x - 1][coord.y] == Symbols::_ &&
         matrix[coord.x][coord.y + 1] == Symbols::_ &&
@@ -87,31 +89,34 @@ bool Board::hasAdjacentFields(Coordinate const coord) {
 }
 
 
-std::vector<Coordinate> Board::getNeighborsAvailable(Coordinate const coord){
-    vector<Coordinate> neighbors;
-    if (matrix[coord.x + 1][coord.y] == Symbols::_)
-        neighbors.push_back({ coord.x + 1, coord.y });
-    if (matrix[coord.x - 1][coord.y] == Symbols::_)
-        neighbors.push_back({ coord.x - 1, coord.y });
-    if (matrix[coord.x][coord.y + 1] == Symbols::_)
-        neighbors.push_back({ coord.x, coord.y + 1 });
-    if (matrix[coord.x][coord.y - 1] == Symbols::_)
-        neighbors.push_back({ coord.x , coord.y - 1});
+[[nodiscard]] std::vector<Coordinate> Board::getAvailableNeighbors(Coordinate& const coord){
+    std::vector<Coordinate> neighbors;
+    int x = static_cast<int>(coord.x);
+    int y = static_cast<int>(coord.y);
+
+    if (matrix[x + 1][y] == Symbols::_)
+        neighbors.emplace_back(x + 1, y );
+    if (matrix[x - 1][y] == Symbols::_)
+        neighbors.emplace_back( x - 1, y );
+    if (matrix[x][y + 1] == Symbols::_)
+        neighbors.emplace_back( x, y + 1 );
+    if (matrix[x][y - 1] == Symbols::_)
+        neighbors.emplace_back( x , y - 1);
 
     return neighbors;
 }
 
 
-Coordinate Board::chooseFirstCoordinate() {
+[[nodiscard]] Coordinate Board::chooseFirstCoordinate() {
     while (true)
     {
         //TODO : check if the cin is a int and not a char or string
         Coordinate coord;
-        cout << "Where do you want to put the first one ? (x row, y column, with x,y =[0,4])" << endl;
-        cout << "row = ?" << endl;
-        cin >> coord.x;
-        cout << "column = ?" << endl;
-        cin >> coord.y;
+        std::cout << "Where do you want to put the first one ? (x row, y column, with x,y =[0,4])" << std::endl;
+        std::cout << "row = ?" << std::endl;
+        std::cin >> coord.x;
+        std::cout << "column = ?" << std::endl;
+        std::cin >> coord.y;
 
         if (isAvailable(coord))
         {
@@ -119,16 +124,16 @@ Coordinate Board::chooseFirstCoordinate() {
                 return coord;
             else
             {
-                cout << "sorry, this field has no adjacent field available, try again" << endl;
+                std::cout << "sorry, this field has no adjacent field available, try again" << std::endl;
                 continue;
             }
         }
-        cout << "sorry, this case is not available, try again " << endl;
+        std::cout << "sorry, this case is not available, try again " << std::endl;
     }
 }
 
-Coordinate Board::chooseSecondCoordinate(Coordinate const coord1) {
-    vector<Coordinate> neighbors = getNeighborsAvailable(coord1);
+[[nodiscard]] Coordinate Board::chooseSecondCoordinate(Coordinate& const coord1) {
+    std::vector<Coordinate> neighbors = getAvailableNeighbors(coord1);
 
     //TODO : check if the cin is a int and not a char or string
 
@@ -136,17 +141,17 @@ Coordinate Board::chooseSecondCoordinate(Coordinate const coord1) {
     {
         for (size_t i = 0; i < neighbors.size(); i++)
         {
-            cout << "Choose " << i << " for the coordinate " << neighbors[i] << endl;
+            std::cout << "Choose " << i << " for the coordinate " << neighbors[i] << std::endl;
         }
         int choice;
-        cin >> choice;
+        std::cin >> choice;
 
         if (choice < neighbors.size())
             return neighbors[choice];
     }
 }
 
-void Board::drawSymbols(Symbols const symb1, Symbols const symb2)
+void Board::drawSymbols(Symbols& const symb1, Symbols& const symb2)
 {
     Coordinate coord1 = chooseFirstCoordinate();
     Coordinate coord2 = chooseSecondCoordinate(coord1);

@@ -1,5 +1,5 @@
 #include <iostream>
-using namespace std;
+
 #include "Painter.h"
 #include "Detrak.h"
 
@@ -15,7 +15,7 @@ int main()
     //Do{
     Symbols symb1 = getRandomSymbol();
     Symbols symb2 = getRandomSymbol();
-    cout << "You get " << symbolsToChar(symb1) << " and " << symbolsToChar(symb2) << endl;
+    std::cout << "You get " << symbolsToChar(symb1) << " and " << symbolsToChar(symb2) << std::endl;
     
     board.drawSymbols(symb1, symb2);
     painter.drawGrid(board);
