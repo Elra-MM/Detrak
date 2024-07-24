@@ -54,10 +54,9 @@ namespace { //it is available only in this file
 
     std::random_device seed;  // a seed source for the random number engine
     std::mt19937 gen(seed()); // mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> distrib(1, 6);
+    std::uniform_int_distribution<> distrib(0,5);
 
     int random = distrib(gen);
-    std::cout << "random = " << random << std::endl;
     return matchings[random].symbol;
 }
 
@@ -82,9 +81,9 @@ Board::Board()
 }
 
 [[nodiscard]] bool Board::hasAdjacentFields(Coordinate const coord) {
-    return matrix[coord.x + 1][coord.y] == Symbols::_ &&
-        matrix[coord.x - 1][coord.y] == Symbols::_ &&
-        matrix[coord.x][coord.y + 1] == Symbols::_ &&
+    return matrix[coord.x + 1][coord.y] == Symbols::_ ||
+        matrix[coord.x - 1][coord.y] == Symbols::_ ||
+        matrix[coord.x][coord.y + 1] == Symbols::_ ||
         matrix[coord.x][coord.y - 1] == Symbols::_;
 }
 
@@ -94,13 +93,13 @@ Board::Board()
     int x = coord.x;
     int y = coord.y;
 
-    if (matrix[x + 1][y] == Symbols::_)
+    if (x < board_size && matrix[x + 1][y] == Symbols::_)
         neighbors.emplace_back(x + 1, y );
-    if (matrix[x - 1][y] == Symbols::_)
+    if (x > 0 && matrix[x - 1][y] == Symbols::_)
         neighbors.emplace_back( x - 1, y );
-    if (matrix[x][y + 1] == Symbols::_)
+    if (y < board_size && matrix[x][y + 1] == Symbols::_)
         neighbors.emplace_back( x, y + 1 );
-    if (matrix[x][y - 1] == Symbols::_)
+    if (y > 0 && matrix[x][y - 1] == Symbols::_)
         neighbors.emplace_back( x , y - 1);
 
     return neighbors;

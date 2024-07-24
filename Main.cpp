@@ -24,6 +24,8 @@ int main()
     
     }
     while(board.canTheGameContinue());
+
+    std::cout << "The game ends here. You need to implement the score's code now ;)" << std::endl;
     //Score
     return 0;
 }
