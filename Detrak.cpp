@@ -91,8 +91,8 @@ Board::Board()
 
 [[nodiscard]] std::vector<Coordinate> Board::getAvailableNeighbors(Coordinate& const coord){
     std::vector<Coordinate> neighbors;
-    int x = static_cast<int>(coord.x);
-    int y = static_cast<int>(coord.y);
+    int x = coord.x;
+    int y = coord.y;
 
     if (matrix[x + 1][y] == Symbols::_)
         neighbors.emplace_back(x + 1, y );
